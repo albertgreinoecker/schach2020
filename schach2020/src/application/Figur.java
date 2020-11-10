@@ -38,7 +38,6 @@ public class Figur extends Feld {
 	}
 
 	protected boolean spielZugMoeglichGerade(SpielFeld sp, Position von, Position nach) {
-		// TODO: implement
 		if (von.equalsX(nach)) {
 			int startY = Math.min(von.getY(), nach.getY());
 			int endY = Math.max(von.getY(), nach.getY());
