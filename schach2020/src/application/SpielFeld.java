@@ -5,13 +5,9 @@ import java.util.ArrayList;
 public class SpielFeld {
 
 	/**
-	 *  (0,0) ist links oben!!!
-	 *  weiss ist immer unten!!
-	 *  
-	 *  (0,0) (0,1) (0,2) ....
-	 *  (1,0) (1,1) (1,2) ....
-	 *  ......
-	 *  (7,0) (7,1) (7,2) ....
+	 * (0,0) ist links oben!!! weiss ist immer unten!!
+	 * 
+	 * (0,0) (0,1) (0,2) .... (1,0) (1,1) (1,2) .... ...... (7,0) (7,1) (7,2) ....
 	 */
 	private Feld[][] mat; // Zeile, Spalte
 	private boolean werAmZug = true;
@@ -52,16 +48,28 @@ public class SpielFeld {
 		}
 	}
 
-	/** 
-	 * 
+	/**
 	 * @param zug Bsp. e2-e4
+	 */
+	public boolean spielzugMoeglich(String zug) {
+		String[] p = zug.split("-");
+		Position von = schach2koordinate(p[0]);
+		Position nach = schach2koordinate(p[1]);
+		if (isFigur(von)) {
+			Figur f = (Figur) getFeld(von);
+			return f.spielZugMoeglich(this, von, nach);
+		}
+		return false;
+	}
+
+	/**
+	 * @param zug Bsp. e2-e4
+	 * @return false, wenn der Spielzug nicht moeglich ist
 	 */
 	public boolean spielzug(String zug) {
 		String[] p = zug.split("-");
 		Position von = schach2koordinate(p[0]);
-		System.out.println(von);
 		Position nach = schach2koordinate(p[1]);
-		System.out.println(nach);
 		if (isFigur(von)) {
 			Figur f = (Figur) getFeld(von);
 			// if (f.spielZugMoeglich(this, von, nach)) {
@@ -107,7 +115,7 @@ public class SpielFeld {
 	}
 
 	/**
-	 * @see 
+	 * @see
 	 * @param p
 	 * @return
 	 */
@@ -121,23 +129,19 @@ public class SpielFeld {
 	public boolean isFigur(int x, int y) {
 		return (mat[x][y] instanceof Figur);
 	}
-	
+
 	/**
 	 * 
 	 * @param ps eine Menge an Positionen die Überprüft werden sollen
 	 * @return true wenn alle Felder frei sind
 	 */
-	public boolean felderFrei(ArrayList<Position> ps)
-	{
-		for (Position p : ps)
-		{
-			if (isFigur(p))
-			{
+	public boolean felderFrei(ArrayList<Position> ps) {
+		for (Position p : ps) {
+			if (isFigur(p)) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 
 }
