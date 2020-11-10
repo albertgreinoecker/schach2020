@@ -6,8 +6,7 @@ public class Dame extends Figur {
 	}
 
 	public boolean spielZugMoeglich(SpielFeld sp, Position von, Position nach) {
-		// TODO: implement
-		return false;
+		return super.spielZugMoeglich(sp, von, nach) && (spielZugMoeglichDiagonal(sp, von, nach) || spielZugMoeglichGerade(sp, von, nach));
 	}
 
 	public String toString() {
