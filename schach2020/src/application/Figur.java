@@ -59,7 +59,6 @@ public class Figur extends Feld {
 	}
 
 	protected boolean spielZugMoeglichDiagonal(SpielFeld sp, Position von, Position nach) {
-		// TODO: implement
 		if (von.equalsDiagLinksOben(nach)) {
 			Position[] ps = Position.getOrderedByX(von, nach);
 			for (int i = 1; i < ps[1].getX() - ps[0].getX(); i++) {
@@ -67,15 +66,20 @@ public class Figur extends Feld {
 				if (sp.isFigur(p)) {
 					return false;
 				}
-
 			}
 			return true;
 		} else if (von.equalsDiagLinksUnten(nach)) {
+			Position[] ps = Position.getOrderedByX(von, nach);
+			for (int i = 1; i < ps[1].getX() - ps[0].getX(); i++) {
+				Position p = new Position(ps[0].getX() + i, ps[0].getY() - i);
+				if (sp.isFigur(p)) {
+					return false;
+				}
+			}
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
