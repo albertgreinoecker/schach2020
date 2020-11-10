@@ -43,7 +43,7 @@ public class Position {
 	 */
 	public boolean equalsDiagLinksUnten(Position p)
 	{
-		return (x - y) == p.getX() - p.getY();
+		return (x + y) == (p.getX() + p.getY());
 	}
 
 	/**
