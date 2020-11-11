@@ -1,10 +1,15 @@
-package application;
+package application.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import application.Figur;
+import application.Position;
+import application.SpielFeld;
+import application.SpielFeldIO;
 
 class SpringerTest {
 	SpielFeld sf;
