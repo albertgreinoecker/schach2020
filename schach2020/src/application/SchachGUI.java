@@ -90,7 +90,7 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 	public void handle(ActionEvent event) {
 		Node b = (Node) event.getSource();
 		if (first) {
-			b.getStyleClass().add("field_selected");
+			//b.getStyleClass().add("field_selected");
 			label.setText(b.getId());
 			markiereSpielZugMoeglich(b.getId());
 		} else {
