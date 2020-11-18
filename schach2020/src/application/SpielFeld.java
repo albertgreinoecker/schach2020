@@ -29,11 +29,6 @@ public class SpielFeld {
 		this.mat = mat;
 	}
 
-	public boolean schach() {
-		// TODO:implement
-		return false;
-	}
-
 	public boolean schachmatt() {
 		// TODO:implement
 		return false;
@@ -144,4 +139,42 @@ public class SpielFeld {
 		return true;
 	}
 
+	private ArrayList<Position> holeKoenige() {
+		ArrayList<Position> koenige = new ArrayList<>();
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[i].length; j++) {
+				if (getFeld(i, j) instanceof Koenig) {
+					koenige.add(new Position(i, j));
+				}
+			}
+		}
+		return koenige;
+	}
+
+	private ArrayList<Position> holeFiguren(boolean weiss) {
+		ArrayList<Position> figuren = new ArrayList<>();
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[i].length; j++) {
+				if (getFeld(i, j) instanceof Figur && ((Figur) getFeld(i, j)).isFarbeweiss() == weiss) {
+					figuren.add(new Position(i, j));
+				}
+			}
+		}
+		return figuren;
+	}
+
+	public boolean schach() {
+		ArrayList<Position> koenige = holeKoenige();
+		for (Position koenig : koenige) {
+			Koenig k = ((Koenig) getFeld(koenig));
+			ArrayList<Position> figuren = holeFiguren(!k.isFarbeweiss());
+			for (Position figur : figuren) {
+				Figur f = (Figur) getFeld(figur);
+				if (f.spielZugMoeglich(this, figur, koenig)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
