@@ -9,22 +9,23 @@ public class Koenig extends Figur {
 	public Koenig(boolean farbeweiss) {
 		super(farbeweiss);
 
-		rochades.add(new Position[] { new Position(7, 4), new Position(7, 3), new Position(7, 0) });
-		rochades.add(new Position[] { new Position(0, 4), new Position(0, 3), new Position(0, 0) });
+		rochades.add(new Position[] { new Position(7, 4), new Position(7, 2), new Position(7, 0) });
+		rochades.add(new Position[] { new Position(0, 4), new Position(0, 2), new Position(0, 0) });
 
 		rochades.add(new Position[] { new Position(7, 4), new Position(7, 6), new Position(7, 7) });
-		rochades.add(new Position[] { new Position(7, 4), new Position(7, 6), new Position(7, 7) });
+		rochades.add(new Position[] { new Position(0, 4), new Position(0, 6), new Position(0, 7) });
 	}
 
 	private boolean isRochade(SpielFeld sp, Position von, Position nach) {
-
 		for (Position[] rochade : rochades) {
 			Position rVon = rochade[0];
 			Position rNach = rochade[1];
 			Position rTurm = rochade[2];
-
+			//TODO: Positionen dazwischen nicht in Schach
 			if (rVon.equals(von) && rNach.equals(nach)) {
-				return ((sp.getFeld(rTurm) instanceof Turm) && spielZugMoeglichGerade(sp, rVon, rTurm));
+				return ((sp.getFeld(rTurm) instanceof Turm && !((Figur)sp.getFeld(rTurm)).isBewegt())  
+						&& !((Figur)sp.getFeld(rVon)).isBewegt()
+						&& spielZugMoeglichGerade(sp, rVon, rTurm));
 			}
 		}
 		return false;
