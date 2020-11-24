@@ -12,6 +12,10 @@ public class SpielFeld {
 	private Feld[][] mat; // Zeile, Spalte
 	private boolean werAmZug = true;
 
+	public boolean isWerAmZug() {
+		return werAmZug;
+	}
+
 	/**
 	 * Per default soll einfach ein Spielfeld mit lauter leeren Feldern erzeugt
 	 * werden
@@ -27,11 +31,6 @@ public class SpielFeld {
 
 	public SpielFeld(Feld[][] mat) {
 		this.mat = mat;
-	}
-
-	public boolean schachmatt() {
-		// TODO:implement
-		return false;
 	}
 
 	public void ausgabe() {
@@ -163,6 +162,25 @@ public class SpielFeld {
 		return figuren;
 	}
 
+	/**
+	 * Ist nach Umsetzen des Koenigs von der alten- auf die neue Position dieser in Schach
+	 * Nach dem Umsetzen wird wieder zurueckgesetzt, dass keine Seiteneffekte entstehen koennen 
+	 */
+	public boolean schach(Position alt, Position neu)
+	{
+		Feld fAlt = getFeld(neu);
+		Feld fNeu = getFeld(neu);
+		//umsetzen 
+		setFeld(fAlt, neu);
+		setFeld(new Feld(), alt);
+		
+		boolean schach = schach();
+		//wieder zuruecksetzen
+		setFeld(fAlt, alt);
+		setFeld(fNeu, neu);
+		return schach;
+	}
+	
 	public boolean schach() {
 		ArrayList<Position> koenige = holeKoenige();
 		for (Position koenig : koenige) {
@@ -176,5 +194,53 @@ public class SpielFeld {
 			}
 		}
 		return false;
+	}
+	
+	
+	public boolean schachmatt() {
+		if (!schach()) return false;
+		ArrayList<Position> koenige = holeKoenige();
+		for (Position koenig : koenige) {
+			if (moeglicheSpielZuege(koenig).size() == 0) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Schaue ob ein Spielzug fuer eine bestimmte Farbe moeglich ist
+	 */
+	public boolean patt(boolean weiss) {
+		ArrayList<Position> ps = holeFiguren(weiss);
+		for (Position p :ps)
+		{
+			if (moeglicheSpielZuege(p).size() > 0) return false;
+		}
+		return true;
+	}
+	
+	public boolean patt() {
+		return !schach() && (patt(true) || patt(false));
+	}
+	
+	/**
+	 * Es wird ueberprueft welche SpielZuege von der Position <i>p</i> aus moeglich sind 
+	 */
+	private ArrayList<Position> moeglicheSpielZuege(Position p)
+	{
+		ArrayList<Position> posMoeglich = new ArrayList<Position>();
+		if (!(getFeld(p) instanceof Figur)) return posMoeglich;
+		Figur figurVon = (Figur)getFeld(p);
+		
+
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[i].length; j++) {
+				Position nach = new Position(i, j);
+				if (figurVon.spielZugMoeglich(this, p, nach))
+				{
+					posMoeglich.add(nach);
+				}
+			}
+		}
+		return posMoeglich;
 	}
 }

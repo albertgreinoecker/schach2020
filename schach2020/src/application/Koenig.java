@@ -38,7 +38,7 @@ public class Koenig extends Figur {
 			return true;
 		int dx = Math.abs(von.getX() - nach.getX());
 		int dy = Math.abs(von.getY() - nach.getY());
-		return dx <= 1 && dy <= 1;
+		return dx <= 1 && dy <= 1 && !sp.schach(von, nach);
 	}
 
 	@Override

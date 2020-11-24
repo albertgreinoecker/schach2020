@@ -29,6 +29,10 @@ public class Figur extends Feld {
 
 		if (sp.isFigur(nach)) {
 			Figur vonFigur = (Figur) sp.getFeld(von);
+			if (vonFigur.farbeweiss != sp.isWerAmZug()) {
+				return false;
+			}
+
 			Figur nachFigur = (Figur) sp.getFeld(nach);
 			if (vonFigur.farbeweiss == nachFigur.farbeweiss) {
 				return false;
