@@ -66,11 +66,10 @@ public class SpielFeld {
 		Position nach = schach2koordinate(p[1]);
 		if (isFigur(von)) {
 			Figur f = (Figur) getFeld(von);
-			// if (f.spielZugMoeglich(this, von, nach)) {
-			f.spielZug(this, von, nach);
-			werAmZug = !werAmZug; // Der andere Spieler ist jetzt am Zug
-
-			// }
+			if (f.spielZugMoeglich(this, von, nach)) {
+				f.spielZug(this, von, nach);
+				werAmZug = !werAmZug; // Der andere Spieler ist jetzt am Zug
+			}
 			return true;
 		}
 		return false;
@@ -163,24 +162,24 @@ public class SpielFeld {
 	}
 
 	/**
-	 * Ist nach Umsetzen des Koenigs von der alten- auf die neue Position dieser in Schach
-	 * Nach dem Umsetzen wird wieder zurueckgesetzt, dass keine Seiteneffekte entstehen koennen 
+	 * Ist nach Umsetzen des Koenigs von der alten- auf die neue Position dieser in
+	 * Schach Nach dem Umsetzen wird wieder zurueckgesetzt, dass keine Seiteneffekte
+	 * entstehen koennen
 	 */
-	public boolean schach(Position alt, Position neu)
-	{
+	public boolean schach(Position alt, Position neu) {
 		Feld fAlt = getFeld(alt);
 		Feld fNeu = getFeld(neu);
-		//umsetzen 
+		// umsetzen
 		setFeld(fAlt, neu);
 		setFeld(new Feld(), alt);
-		
+
 		boolean schach = schach();
-		//wieder zuruecksetzen
+		// wieder zuruecksetzen
 		setFeld(fAlt, alt);
 		setFeld(fNeu, neu);
 		return schach;
 	}
-	
+
 	public boolean schach() {
 		ArrayList<Position> koenige = holeKoenige();
 		for (Position koenig : koenige) {
@@ -195,14 +194,15 @@ public class SpielFeld {
 		}
 		return false;
 	}
-	
-	
+
 	public boolean schachmatt() {
-		//TODO: Figur davorstellen
-		if (!schach()) return false;
+		// TODO: Figur davorstellen
+		if (!schach())
+			return false;
 		ArrayList<Position> koenige = holeKoenige();
 		for (Position koenig : koenige) {
-			if (moeglicheSpielZuege(koenig).size() == 0) return true;
+			if (moeglicheSpielZuege(koenig).size() == 0)
+				return true;
 		}
 		return false;
 	}
@@ -212,32 +212,31 @@ public class SpielFeld {
 	 */
 	private boolean patt(boolean weiss) {
 		ArrayList<Position> ps = holeFiguren(weiss);
-		for (Position p :ps)
-		{
-			if (moeglicheSpielZuege(p).size() > 0) return false;
+		for (Position p : ps) {
+			if (moeglicheSpielZuege(p).size() > 0)
+				return false;
 		}
 		return true;
 	}
-	
+
 	public boolean patt() {
 		return !schach() && (patt(true) || patt(false));
 	}
-	
+
 	/**
-	 * Es wird ueberprueft welche SpielZuege von der Position <i>p</i> aus moeglich sind 
+	 * Es wird ueberprueft welche SpielZuege von der Position <i>p</i> aus moeglich
+	 * sind
 	 */
-	private ArrayList<Position> moeglicheSpielZuege(Position p)
-	{
+	private ArrayList<Position> moeglicheSpielZuege(Position p) {
 		ArrayList<Position> posMoeglich = new ArrayList<Position>();
-		if (!(getFeld(p) instanceof Figur)) return posMoeglich;
-		Figur figurVon = (Figur)getFeld(p);
-		
+		if (!(getFeld(p) instanceof Figur))
+			return posMoeglich;
+		Figur figurVon = (Figur) getFeld(p);
 
 		for (int i = 0; i < mat.length; i++) {
 			for (int j = 0; j < mat[i].length; j++) {
 				Position nach = new Position(i, j);
-				if (figurVon.spielZugMoeglich(this, p, nach))
-				{
+				if (figurVon.spielZugMoeglich(this, p, nach)) {
 					posMoeglich.add(nach);
 				}
 			}
