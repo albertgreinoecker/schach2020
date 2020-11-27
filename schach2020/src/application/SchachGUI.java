@@ -21,7 +21,7 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 	private boolean first = true;
 	private Button[][] buttons = new Button[8][8];
 	private Label label = new Label();
-
+	private Label player = new Label();
 	private void imagesAufsFeld() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -62,6 +62,7 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 		imagesAufsFeld();
 		root.setCenter(sfGrid);
 		root.setBottom(label);
+		root.setTop(player);
 		Scene scene = new Scene(root, 800, 800);
 
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -111,7 +112,7 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 			{
 				label.setText("patt!!");
 			}
-			
+			player.setText(String.format("%s ist am Zug", sf.isWerAmZug() ?  "Weiss" : "Schwarz"));
 		}
 		first = !first;
 	}
