@@ -100,6 +100,18 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 			imagesAufsFeld();
 			sf.ausgabe();
 			label.setText("");
+			if (sf.schach())
+			{
+				label.setText("schach!!");
+			} 
+			if (sf.schachmatt())
+			{
+				label.setText("schachmatt!!");
+			} else if (sf.patt())
+			{
+				label.setText("patt!!");
+			}
+			
 		}
 		first = !first;
 	}
