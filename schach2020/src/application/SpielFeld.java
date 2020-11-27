@@ -196,16 +196,19 @@ public class SpielFeld {
 		return false;
 	}
 
+	private Position holeKoenig(boolean weiss)
+	{
+		ArrayList<Position> koenige = holeKoenige();
+		Koenig k0 = (Koenig)getFeld(koenige.get(0));
+		return (k0.isFarbeweiss() == weiss ? koenige.get(0) : koenige.get(1));
+	}
+	
 	public boolean schachmatt() {
 		// TODO: Figur davorstellen
 		if (!schach())
 			return false;
-		ArrayList<Position> koenige = holeKoenige();
-		for (Position koenig : koenige) {
-			if (moeglicheSpielZuege(koenig).size() == 0)
-				return true;
-		}
-		return false;
+		Position koenig = holeKoenig(werAmZug);
+		return (moeglicheSpielZuege(koenig).size() == 0);
 	}
 
 	/**
