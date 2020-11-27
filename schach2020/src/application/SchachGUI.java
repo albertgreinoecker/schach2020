@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 public class SchachGUI extends Application implements EventHandler<ActionEvent> {
 	private SpielFeld sf = null;
+	private boolean gameOver = false;
 	private boolean first = true;
 	private Button[][] buttons = new Button[8][8];
 	private Label label = new Label();
@@ -76,6 +77,8 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 	}
 
 	private void markiereSpielZugMoeglich(String von) {
+		if (gameOver) return;
+		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				String nach = buttons[i][j].getId();
@@ -108,8 +111,10 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 			if (sf.schachmatt())
 			{
 				label.setText("schachmatt!!");
+				gameOver = true;
 			} else if (sf.patt())
 			{
+				gameOver = true;
 				label.setText("patt!!");
 			}
 			player.setText(String.format("%s ist am Zug", sf.isWerAmZug() ?  "Weiss" : "Schwarz"));
