@@ -109,9 +109,7 @@ public class SpielFeld {
 	}
 
 	/**
-	 * @see
-	 * @param p
-	 * @return
+	 * @see #isFigur(int, int)
 	 */
 	public boolean isFigur(Position p) {
 		return isFigur(p.getX(), p.getY());
