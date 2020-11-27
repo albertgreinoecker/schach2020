@@ -49,7 +49,7 @@ public class SpielFeld {
 		String[] p = zug.split("-");
 		Position von = schach2koordinate(p[0]);
 		Position nach = schach2koordinate(p[1]);
-		if (isFigur(von)) {
+		if (isFigur(von) && ((Figur)getFeld(von)).isFarbeweiss() == werAmZug) {
 			Figur f = (Figur) getFeld(von);
 			return f.spielZugMoeglich(this, von, nach);
 		}
@@ -64,7 +64,8 @@ public class SpielFeld {
 		String[] p = zug.split("-");
 		Position von = schach2koordinate(p[0]);
 		Position nach = schach2koordinate(p[1]);
-		if (isFigur(von)) {
+		if (isFigur(von) && ((Figur)getFeld(von)).isFarbeweiss() == werAmZug) 
+		{
 			Figur f = (Figur) getFeld(von);
 			if (f.spielZugMoeglich(this, von, nach)) {
 				f.spielZug(this, von, nach);

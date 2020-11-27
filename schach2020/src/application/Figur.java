@@ -26,17 +26,13 @@ public class Figur extends Feld {
 	public boolean spielZugMoeglich(SpielFeld sp, Position von, Position nach) {
 		if (von.equals(nach))
 			return false;
-		
+
 		if (!sp.isFigur(von))
 			return false;
-		
-		Figur vonFigur = (Figur) sp.getFeld(von);
-		if (vonFigur.farbeweiss != sp.isWerAmZug()) {
-			return false;
-		}
-		
-		if (sp.isFigur(nach)) {
 
+		Figur vonFigur = (Figur) sp.getFeld(von);
+
+		if (sp.isFigur(nach)) {
 
 			Figur nachFigur = (Figur) sp.getFeld(nach);
 			if (vonFigur.farbeweiss == nachFigur.farbeweiss) {
