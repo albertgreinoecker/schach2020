@@ -168,7 +168,7 @@ public class SpielFeld {
 	 */
 	public boolean schach(Position alt, Position neu)
 	{
-		Feld fAlt = getFeld(neu);
+		Feld fAlt = getFeld(alt);
 		Feld fNeu = getFeld(neu);
 		//umsetzen 
 		setFeld(fAlt, neu);
@@ -198,6 +198,7 @@ public class SpielFeld {
 	
 	
 	public boolean schachmatt() {
+		//TODO: Figur davorstellen
 		if (!schach()) return false;
 		ArrayList<Position> koenige = holeKoenige();
 		for (Position koenig : koenige) {
@@ -209,7 +210,7 @@ public class SpielFeld {
 	/**
 	 * Schaue ob ein Spielzug fuer eine bestimmte Farbe moeglich ist
 	 */
-	public boolean patt(boolean weiss) {
+	private boolean patt(boolean weiss) {
 		ArrayList<Position> ps = holeFiguren(weiss);
 		for (Position p :ps)
 		{
