@@ -100,4 +100,18 @@ public class Figur extends Feld {
 	public String toString() {
 		return (farbeweiss) ? "W" : "B";
 	}
+	
+	/**
+	 * Sind gleich wenn die toString gleich ist
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Figur))
+		{
+			return false;
+		}
+		Figur f = (Figur)obj;
+		return f.toString().equals(toString());
+	}
+	
 }

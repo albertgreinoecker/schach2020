@@ -1,6 +1,8 @@
 package application;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class SchachGUI extends Application implements EventHandler<ActionEvent> {
+	private SpielFeld start = null; //Dient nur zum Speichern der Startposition, um die bereits geschlagenen Figuren zu ermitteln
 	private SpielFeld sf = null;
 	private boolean gameOver = false;
 	private boolean first = true;
@@ -35,8 +38,21 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 		}
 	}
 
+	private void zeichneGeschlageneFiguren()
+	{
+		ArrayList<Figur> geschlageneWeiss = start.minus(sf, true);
+		ArrayList<Figur> geschlageneSchwarz = start.minus(sf, false);
+		System.out.println("Geschlagen Weiss:");
+		System.out.println(Arrays.toString(geschlageneWeiss.toArray()));
+		System.out.println("Geschlagen Schwarz:");
+		System.out.println(Arrays.toString(geschlageneSchwarz.toArray()));
+		//TODO: Zeichnen 
+	}
+	
+	
 	public void start(Stage primaryStage) throws FileNotFoundException {
 		sf = SpielFeldIO.einlesen("start.txt");
+		start = SpielFeldIO.einlesen("start.txt");
 		sf.ausgabe();
 		GridPane sfGrid = new GridPane();
 		BorderPane root = new BorderPane();
@@ -102,7 +118,8 @@ public class SchachGUI extends Application implements EventHandler<ActionEvent> 
 			System.out.println(fullMove);
 			sf.spielzug(fullMove);
 			imagesAufsFeld();
-			sf.ausgabe();
+			zeichneGeschlageneFiguren();
+			//sf.ausgabe();
 			label.setText("");
 			if (sf.schach())
 			{

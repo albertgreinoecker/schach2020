@@ -15,7 +15,7 @@ public class SpielFeld {
 	public boolean isWerAmZug() {
 		return werAmZug;
 	}
-
+		
 	/**
 	 * Per default soll einfach ein Spielfeld mit lauter leeren Feldern erzeugt
 	 * werden
@@ -33,6 +33,8 @@ public class SpielFeld {
 		this.mat = mat;
 	}
 
+
+	
 	public void ausgabe() {
 		for (int i = 0; i < mat.length; i++) {
 			for (int j = 0; j < mat[i].length; j++) {
@@ -136,6 +138,9 @@ public class SpielFeld {
 		return true;
 	}
 
+	/**
+	 * @return Die Positionen der beiden Koenige
+	 */
 	private ArrayList<Position> holeKoenige() {
 		ArrayList<Position> koenige = new ArrayList<>();
 		for (int i = 0; i < mat.length; i++) {
@@ -148,6 +153,10 @@ public class SpielFeld {
 		return koenige;
 	}
 
+	/**
+	 * @param weiss Die Farbe fuer die die Positionen ermittelt werden sollen
+	 * @return Alle Positionen von Figuren einer bestimmten Farbe
+	 */
 	private ArrayList<Position> holeFiguren(boolean weiss) {
 		ArrayList<Position> figuren = new ArrayList<>();
 		for (int i = 0; i < mat.length; i++) {
@@ -160,6 +169,41 @@ public class SpielFeld {
 		return figuren;
 	}
 
+	private ArrayList<Figur> holeFigurenObj(boolean weiss) {
+		ArrayList<Figur> figuren = new ArrayList<>();
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[i].length; j++) {
+				if (getFeld(i, j) instanceof Figur && ((Figur) getFeld(i, j)).isFarbeweiss() == weiss) {
+					figuren.add((Figur) getFeld(i, j));
+				}
+			}
+		}
+		return figuren;
+	}
+	
+	/**
+	 * Ermittle, welche Figuren sind im aktuellen Spielfeld und nicht im SpielFeld sf
+	 * Abfrage ist nach Spielfarbe getrennt
+	 * @param sf Das SpielFeld mit dem verglichen wird
+	 * @param weiss true=weiss, false= schwarz
+	 * @return Eine Liste aus SpielFiguren die die beinhalten die im aktuellen Spiel sind aber nicht in sf
+	 */
+	public ArrayList<Figur> minus(SpielFeld sf, boolean weiss)
+	{
+		ArrayList<Figur> fs1 = holeFigurenObj(weiss);
+		ArrayList<Figur> fs2 = sf.holeFigurenObj(weiss);
+		for (Figur f2 : fs2)
+		{
+			if (fs1.contains(f2))
+			{
+				fs1.remove(f2);
+			}
+		}
+		return fs1;
+	}
+	
+	
+	
 	/**
 	 * Ist nach Umsetzen des Koenigs von der alten- auf die neue Position dieser in
 	 * Schach Nach dem Umsetzen wird wieder zurueckgesetzt, dass keine Seiteneffekte
@@ -179,6 +223,10 @@ public class SpielFeld {
 		return schach;
 	}
 
+	/**
+	 * 
+	 * @return true wenn allgemein eine Schach-Situation ist
+	 */
 	public boolean schach() {
 		ArrayList<Position> koenige = holeKoenige();
 		for (Position koenig : koenige) {
@@ -194,6 +242,10 @@ public class SpielFeld {
 		return false;
 	}
 
+	/**
+	 * @param weiss die Farbe für die der Koenig zu holen ist.
+	 * @return Den Koenig einer bestimmten Farbe
+	 */
 	private Position holeKoenig(boolean weiss)
 	{
 		ArrayList<Position> koenige = holeKoenige();
